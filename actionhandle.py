@@ -61,11 +61,11 @@ class ToDoListHandler:
 
         added_items = pd.DataFrame(new_items)
         self.df = pd.concat([self.df, added_items], ignore_index=True)
-        self.to_do_list()  # ✅ Refresh internal view immediately'''
+        self.to_do_list() 
 
     def mark_task_complete(self, task):
         self.df.loc[(self.df['Due Date'] == self.date) & (self.df['Task'] == task), 'Done'] = True
-        self.to_do_list()  # ✅ Refresh visible list
+        self.to_do_list()  
 
     def mark_task_incomplete(self, task):
         self.df.loc[(self.df['Due Date'] == self.date) & (self.df['Task'] == task), 'Done'] = False
