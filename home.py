@@ -6,7 +6,6 @@ from actionhandle import ToDoListHandler
 
 st.set_page_config(page_title="Keegan's Dashboard", page_icon="📊", layout="wide")
 
-# Load CSS from styling.py
 st.markdown(get_css(), unsafe_allow_html=True)
 
 st.title("📊 Keegan's Command Center")
@@ -23,7 +22,6 @@ if "chat_history" not in st.session_state:
 
 chat_container = st.container()
 
-# --- Input ---
 user_input = st.text_input("AI chat", placeholder="Type here to chat with AI")
 
 if user_input:
@@ -92,9 +90,6 @@ if st.session_state.response_shown:
     time.sleep(1.5)
     st.session_state.response_shown = False
 
-# ---------------------------
-# Dashboard Cards
-# ---------------------------
 col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
@@ -121,7 +116,6 @@ with col3:
         st.session_state.page = "inventory"
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Second row
 col4, col5, col6 = st.columns(3, gap="large")
 
 with col4:
@@ -148,9 +142,7 @@ with col6:
         st.session_state.page = "notes"
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ---------------------------
-# PAGE ROUTING LOGIC
-# ---------------------------
+
 if "page" in st.session_state:
     page = st.session_state.page
     if page == "budget":
