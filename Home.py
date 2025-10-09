@@ -9,7 +9,6 @@ st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
 # Load custom CSS
 st.markdown(get_css(), unsafe_allow_html=True)
 
-# --- Extra CSS for fade animation ---
 st.markdown("""
 <style>
 .fade-container {
@@ -46,9 +45,6 @@ st.markdown("""
 st.title("📊 Keegan's Command Center")
 st.markdown("Personal dashboard for **food tracking**, **budgeting**, and **daily insights.**")
 
-# ---------------------------
-# Session State
-# ---------------------------
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
 if "response_shown" not in st.session_state:
@@ -56,16 +52,12 @@ if "response_shown" not in st.session_state:
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "chat_expanded" not in st.session_state:
-    st.session_state.chat_expanded = True  # default visible
+    st.session_state.chat_expanded = True  
 
-# ---------------------------
-# Chat Section with Toggle
-# ---------------------------
 toggle_label = "🔽 Hide Chat" if st.session_state.chat_expanded else "▶ Show Chat"
 if st.button(toggle_label, key="toggle_chat", help="Show or hide the chat window"):
     st.session_state.chat_expanded = not st.session_state.chat_expanded
 
-# Chat fade container
 chat_state_class = "fade-visible" if st.session_state.chat_expanded else "fade-hidden"
 st.markdown(f"<div class='fade-container {chat_state_class}'>", unsafe_allow_html=True)
 
@@ -97,9 +89,6 @@ if st.session_state.chat_expanded:
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-# ---------------------------
-# Dashboard Cards
-# ---------------------------
 col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
@@ -126,7 +115,6 @@ with col3:
         st.session_state.page = "inventory"
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Second row
 col4, col5, col6 = st.columns(3, gap="large")
 
 with col4:
@@ -153,9 +141,6 @@ with col6:
         st.session_state.page = "notes"
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ---------------------------
-# PAGE ROUTING LOGIC
-# ---------------------------
 if "page" in st.session_state:
     page = st.session_state.page
     if page == "budget":
