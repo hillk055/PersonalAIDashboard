@@ -1,6 +1,7 @@
 import inspect
 from datetime import datetime, timedelta
 import pandas as pd
+import streamlit as st
 
 
 class ToDoListHandler:
@@ -10,11 +11,16 @@ class ToDoListHandler:
         self.to_do_df = None
         self.date = datetime.today().date()
 
-    def to_do_list(self):
+    def show(self) -> None:
         """Refresh filtered to-do list for today."""
         self.to_do_df = self.df[self.df['Due Date'] == self.date]
 
-    def add_to_todo_list(self, to_do, when, period, frequency):
+    def navigate_to_to_do_list(self) -> None:
+        """Navigate to do list"""
+
+        return st.switch_page("pages/Notes.py")
+
+    def add_to_todo_list(self, to_do: str, when: datetime, period: int, frequency: int) -> None:
 
         """
             Adds a repeating task to the to-do list.
@@ -61,15 +67,33 @@ class ToDoListHandler:
 
         added_items = pd.DataFrame(new_items)
         self.df = pd.concat([self.df, added_items], ignore_index=True)
-        self.to_do_list() 
+        self.show()
 
-    def mark_task_complete(self, task):
+    def mark_task_complete(self, task: str) -> None:
+        """
+        Mark a specific task as completed if it is due today, and refresh the to-do list display.
+
+        Parameters
+        ----------
+        task : str
+        The name of the task to mark as done.
+           """
+
         self.df.loc[(self.df['Due Date'] == self.date) & (self.df['Task'] == task), 'Done'] = True
-        self.to_do_list()  
+        self.show()
 
     def mark_task_incomplete(self, task):
+        """
+        Mark a specific task as uncompleted if selected by the user and refresh the to-do list display.
+
+        Parameters
+        ----------
+        task : str
+        The name of the task to mark as not done.
+        """
+
         self.df.loc[(self.df['Due Date'] == self.date) & (self.df['Task'] == task), 'Done'] = False
-        self.to_do_list()
+        self.show()
 
     def remove_task(self, task, date_to_rm):
         if date_to_rm == 'All':
@@ -80,6 +104,60 @@ class ToDoListHandler:
 
     def save_input(self):
         self.df.to_excel('')
+
+
+class InventoryHandler:
+
+    def __init__(self):
+
+        self.df = pd.read_csv('')
+        self.df['Best Before'] = pd.to_datetime(self.df['Best Before'])
+        self.date = datetime.today().date()
+        self.date = pd.to_datetime(self.date)
+        print(self.date)
+    
+    @staticmethod
+    def get_date_difference(df, date):
+
+        df['Days Before Expiry'] = df['Best Before'] - date
+        return df
+        
+    def prioritise_items_by_best_before_date(self):
+        
+        self.df = self.get_date_difference(self.df, self.date)
+    
+    def best_before_date_tracker(self):
+        pass
+
+        pass
+    def add_items(self):
+        pass
+    def update_price(self):
+        # Need to add memory for the AI to handle this if price is not specified
+        pass
+
+    def remove_items(self, items: list) -> None:
+
+        for x in items:
+            self.df = self.df[~(self.df['Item'] == x)]
+
+    def get_price_multiple_items(self):
+        pass
+
+    def __str__(self):
+        # provide a summary/overview of the inventory
+        pass
+    def __len__(self):
+        # provide the length of the inventory
+        pass
+
+class BudgetHandler:
+
+    def __init__(self):
+        pass
+
+
+
 
 
 
@@ -95,5 +173,6 @@ def make_action():
 
 if __name__ == "__main__":
 
-    pass
+    inv = InventoryHandler()
+    inv.prioritise_items_by_best_before_date()
 
